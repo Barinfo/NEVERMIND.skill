@@ -1,0 +1,43 @@
+Amp
+Antigravity
+Antigravity CLI
+Claude Code
+Cline
+CodeBuddy
+Codebuff
+Codex CLI
+Command Code
+Copilot
+Crush
+Cursor
+Devin CLI
+Devin Desktop
+Droid
+Freebuff
+Fx
+Gajae Code
+Gemini CLI
+Goose
+Grok Build
+Hermes Agent
+Jcode
+Junie
+Kilo
+Kilo CLI
+Kimi
+Kiro
+MiMo Code
+Mux
+OpenClaw
+OpenCode
+OpenCodeReview
+Orca
+Pi
+Qwen
+Reasonix
+Roo Code
+Trae
+Warp
+WorkBuddy
+ZCode
+Zed Agent

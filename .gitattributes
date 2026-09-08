@@ -1,0 +1,6 @@
+# 文本文件统一 LF 存储（Windows 检出时再转 CRLF）
+* text=auto
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf

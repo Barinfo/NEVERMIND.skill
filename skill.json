@@ -1,0 +1,102 @@
+{
+  "name": "nevermind.skill",
+  "version": "0.1.0",
+  "description": "把今天烧掉的 AI token 结算成「赛博功德」，用尴尬黄豆追美元 (😅💵⚠️) 的语气俏皮播报。真数只来自 tokens.ci CLI 读取的本地 AI 用量；tokens.ci 不在就明说读不到、走尴尬自报或纯梗收尾，不另起本地假账。不是省钱工具，不是攀比榜，是对着 AI 账单尴尬大笑的告解室。logo 是流汗尬笑黄豆追一张带感叹号的美元。非 tokens.ci 官方项目。",
+  "description_zh": "把 AI token 消耗结算成「赛博功德」，以 😅💵⚠️ 尴尬黄豆语气俏皮播报。真数只来自 tokens.ci CLI；它不在就明说、走尴尬自报或纯梗收尾，不造本地 ledger 假账。纯文字 + emoji，轻量无依赖。非 tokens.ci 官方项目。",
+  "description_en": "Settle today's AI token burn as 'cyber merit' and broadcast it in the tone of an awkward yellow face chasing a dollar bill (😅💵⚠️). Real numbers come ONLY from the tokens.ci CLI; if absent it is said plainly — awkward self-report or plain meme, no fake local ledger. Pure text + emoji, zero-dependency. NOT a tokens.ci official project.",
+  "author": "FuCube",
+  "license": "MIT",
+  "main": "SKILL.md",
+  "language": "zh-CN (default voice); en (README)",
+  "disclaimer": "NOT a cost-saver, NOT a leaderboard, NOT competitor surveillance. NOT a tokens.ci OFFICIAL project: NEVERMIND is third-party fun that only reads your local tokens.ci CLI totals — no affiliation/endorsement. It only settles YOUR OWN cyber merit, then tells you to relax. The logo is an awkward laughing yellow face chasing a dollar bill with an exclamation mark. 本 Skill 不帮你省钱、不搞排名、不监控对手，只管你自己烧掉的赛博功德，然后让你放下；不是 tokens.ci 官方项目。",
+  "triggers": [
+    "nevermind",
+    "NEVERMIND",
+    "赛博功德",
+    "功德结算",
+    "功德+1",
+    "结算一下功德",
+    "今天烧了多少 token",
+    "今天烧了多少",
+    "token 结算",
+    "用了多少额度",
+    "我用了多少额度",
+    "我的 AI 账单",
+    "帮我看看我的 AI 账单",
+    "看看我今天烧了多少",
+    "钱又没了"
+  ],
+  "keywords": [
+    "tokens.ci",
+    "token-count",
+    "ai-usage",
+    "cyber-merit",
+    "funny-billing",
+    "satire",
+    "skill",
+    "nevermind",
+    "nirvana",
+    "赛博功德",
+    "token结算",
+    "AI账单",
+    "尴尬黄豆"
+  ],
+  "data_sources": {
+    "tier_1_cli": "tokens submit --dry-run — the ONLY real-number source (tokens.ci holds its own local record)",
+    "tier_2_no_cli": "no tokens.ci -> say so plainly: awkward self-report (manual trigger only) or plain-meme sign-off. NEVER invent a separate local ledger."
+  },
+  "trigger_mode": {
+    "primary": "auto sign-off — fires at the very end of a finished task, roughly every ~16 turns, or at end of day; never interrupts in-progress work, at most once per turn",
+    "manual_fallback": "user says nevermind / 赛博功德 / how many tokens / show AI bill, etc.",
+    "anti_nag": "max once per turn; pure-meme sign-off (no numbers, no question) if auto-fire but no data available"
+  },
+  "host_gate": {
+    "mode": "hard_refuse",
+    "description": "FIRST gate. If the current agent is not a tokens.ci supported host, refuse to start ANY behavior — even if force-started, or driven by another loop/orchestrator. Hard refusal is not stubbornness; it is the data source's physical boundary.",
+    "builtin_list": "data/supported-hosts.txt (official 43 clients, R3 offline authoritative source, case-insensitive name/substring match)",
+    "cache": {
+      "file": "support_cache.json (gitignored, generated, NOT committed)",
+      "purpose": "records last_checked + latest official host snapshot; does NOT drive per-check decisions (R3 builtin does)",
+      "refresh": "refresh on first contact of each new session ONLY if file missing OR last_checked >= 3 days (C3); otherwise offline via R3. Executed by scripts/refresh_support.py (stdlib-only, curl fallback documented in its header)"
+    },
+    "match": "case-insensitive exact name or reasonable alias/substring (e.g. workbuddy / CodeBuddy / Claude Code / claude-code)",
+    "identity": "derive current host name from the host's own exposed identity (env var / agent self-report); if unidentifiable, treat as unsupported rather than guess-open",
+    "refuse_even_if": ["force-start requested", "gate disabled by instruction", "called by recursive snake/Ouroboros-style loop"],
+    "ask": "when user asks 'is my 炉鼎 supported?', answer immediately from R3 — instant, not affected by the 3-day refresh cadence"
+  },
+  "startup_env_check": {
+    "order": "SECOND gate, runs AFTER host_gate passes. Host unsupported => 开摆 at gate, skip env check entirely.",
+    "envs": ["cli (tokens command)", "node", "bun", "npm"],
+    "case1_all_missing": "refuse + meme notice: 家里怎么一个家具也没有，难不成我睡地板吗？Nevermind! ...  (fire only when NONE of cli/node/bun/npm present)",
+    "case2_no_tokens_found": "auto-install tokens.ci (user-authorized exception to no-auto-external-actions) then fall to case3",
+    "case3_not_logged_in_github": "prompt 接下来需要以Github账号登录tokens.ci; login requires ask-consent, never auto",
+    "case4_extra": ["4a login token expired/lost -> treat as case3", "4b auto-install failed (offline) -> plainly say can't install, degrade to self-report/pure-meme, never fake success", "4c outdated/incompatible version -> suggest upgrade, don't block"]
+  },
+  "privacy": {
+    "uploads": "never without explicit user consent",
+    "reads": "aggregate token counts / model names only — never prompts, code, or file contents; no separate local ledger is kept"
+  },
+  "philosophy": {
+    "oath": "Read the burn, laugh at it, then let it go. NEVERMIND.",
+    "mood": "😅💵⚠️ — awkward, wallet-hurting, but relieved",
+    "metaphors": {
+      "cyber_merit": "Token burn counted as merit points toward enlightenment you'll never reach",
+      "awkward_face": "The embarrassed realization that you spent a lot — and you're owning it",
+      "nevermind": "The punchline that dissolves all token anxiety"
+    }
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "README.en.md",
+    "docs/BANTEDEX.md",
+    "examples/demo-broadcast.md",
+    "assets/nevermind-logo.png",
+    "data/supported-hosts.txt",
+    "scripts/refresh_support.py",
+    "LICENSE"
+  ],
+  "generated_files": [
+    "support_cache.json (gitignored; auto-created/refreshed on a 3-day cadence)"
+  ]
+}

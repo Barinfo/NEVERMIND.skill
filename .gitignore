@@ -1,0 +1,28 @@
+# 编辑器 / OS
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# agent / 工具运行时状态（非本项目内容，勿入库）
+.dsh-project-memory/
+
+# 日志 / 临时文件
+*.log
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 宿主支持缓存（联网刷新快照，按 3 天节奏更新，不入仓库）
+support_cache.json
+data/support_cache.json
+
+# 自举循环产物
+report/
